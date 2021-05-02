@@ -77,6 +77,28 @@ app.post('/api/notes', ( req, res) => {
     res.json( note );
 });
 
+app.put('/api/notes/:id', (req, res) => {
+
+    const body = req.body;
+    const id = Number( req.params.id );
+
+    if ( !body.content ) {
+        return res.status(400).json({
+            error: 'Content missing'
+        });
+    }
+    const note = notes.find(note => note.id === id);
+    
+    notes.map( (note) => {
+        if (note.id === id) {
+            note.important = !note.important;
+        }
+    });
+
+    res.json( note );
+    
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen( PORT , () => {
     console.log(`Server running on port ${ PORT }`);
